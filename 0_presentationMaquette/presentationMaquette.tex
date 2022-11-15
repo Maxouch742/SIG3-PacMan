@@ -1,0 +1,65 @@
+\documentclass{beamer}
+\usepackage[T1]{fontenc}
+\usepackage{bookman}
+\usetheme[numbering=fraction, progressbar=foot, ,block=fill]{metropolis}  %source : https://fr.overleaf.com/latex/templates/metropolis-beamer-theme/qzyvdhrntfmr et https://mirror.foobar.to/CTAN/macros/latex/contrib/beamer-contrib/themes/metropolis/doc/metropolistheme.pdf
+
+\usepackage{enumitem}
+\usepackage{pifont} % puces des listes
+\usepackage{blindtext}
+\usepackage{hyperref}
+\usepackage{fourier}  %symbole \danger
+\usepackage[french]{babel}
+\usepackage{colortbl} % color tabular
+\usepackage{booktabs} %toprule
+\usepackage{comment}
+\usepackage{graphicx} %Loading the package
+\graphicspath{{picture/}}
+
+%http://lesfichesabebert.fr/latex/TableauxCouleur.html
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Information to be included in the title page:
+
+\title{PacMan -- Concepts et maquettes}
+\subtitle{SIG3 -- Projet de semestre}
+\author{Aline Baeriswyl \& Maxime Fourquaux}
+\date{Vendredi 18 novembre 2022}
+\logo{\includegraphics[width=0.75cm]{logoGGT.png}}
+
+\institute[HEIG]%
+{
+    HEIG-VD  -- EC+G \\
+    Orientation GGT
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SOURCES :
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\labelenumi{\theenumi}
+\setbeamertemplate{enumerate item}{\alph{enumi}}
+\setbeamertemplate{enumerate subitem}{\roman{enumii}.}
+\usepackage{outline}%
+\def\labeloutlni{\theoutlni}%
+\def\theoutlni{\alph{outlni}.}%
+%\renewcommand{\labelenumi}{\alph{enumi}.)
+
+%\metroset{block=fill} %remplir les blocks
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+% Page de titre
+\frame{\titlepage}
+
+
+% \section{Maquette du projet}
+\begin{frame}{Maquette du projet}
+    \dots
+\end{frame}
+
+
+\end{document}
