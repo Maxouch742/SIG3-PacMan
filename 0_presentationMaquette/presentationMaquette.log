@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.18)  16 NOV 2022 15:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.18)  16 NOV 2022 21:04
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -1261,18 +1261,18 @@ Package rerunfilecheck Info: File `presentationMaquette.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 28417 strings out of 478238
- 564307 string characters out of 5847939
+ 28428 strings out of 478238
+ 564598 string characters out of 5847939
  821136 words of memory out of 5000000
- 46019 multiletter control sequences out of 15000+600000
+ 46030 multiletter control sequences out of 15000+600000
  520400 words of font info for 80 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,14n,122p,2127b,857s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2022/texmf-dist/fonts/type1/urw/avantgar/uagd8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/avantgar/uagk8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/avantgar/uagko8a.pfb>
-Output written on presentationMaquette.pdf (7 pages, 2968669 bytes).
+{c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/avantgar/uagd8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/avantgar/uagk8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/avantgar/uagko8a.pfb>
+Output written on presentationMaquette.pdf (7 pages, 2977480 bytes).
 PDF statistics:
- 95 PDF objects out of 1000 (max. 8388607)
- 57 compressed objects within 1 object stream
+ 100 PDF objects out of 1000 (max. 8388607)
+ 60 compressed objects within 1 object stream
  15 named destinations out of 1000 (max. 500000)
  83 words of extra memory for PDF output out of 10000 (max. 10000000)
 
