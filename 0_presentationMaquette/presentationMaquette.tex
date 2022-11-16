@@ -12,6 +12,8 @@
 \usepackage{colortbl} % color tabular
 \usepackage{booktabs} %toprule
 \usepackage{comment}
+\usepackage{color}
+\usepackage{multirow}
 \usepackage{graphicx} %Loading the package
 \graphicspath{{picture/}}
 
@@ -48,6 +50,10 @@
 %\renewcommand{\labelenumi}{\alph{enumi}.)
 
 %\metroset{block=fill} %remplir les blocks
+\newcommand{\obligatoire}{{\color{red} \textbf{Obligatoire}}}
+\newcommand{\optionnel}{{\color{orange} \textit{Optionnel}}}
+\newcommand{\test}{{\color{blue} \textit{Test sur zone restreinte}}}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
@@ -58,8 +64,71 @@
 
 % \section{Maquette du projet}
 \begin{frame}{Maquette du projet}
-    \dots
+    \begin{figure}
+        \centering
+        \includegraphics[width=10cm]{maquette.png}
+    \end{figure}
 \end{frame}
 
+\begin{frame}{Rôles}
+    \begin{table}
+        \centering
+            \begin{tabular}{lp{2cm}p{0.5cm}lp{2cm}}
+                \multirow{2}{*}{\includegraphics[height=1.5cm]{pacMan.png}}      & \textbf{PACMAN}                         & & \multirow{2}{*}{\includegraphics[height=1.5cm]{ghost.png}}    & \textbf{GHOST}                                              \\
+                                                                                 & {\footnotesize Héros du jeu}            & &                                                               & {\footnotesize Méchant du jeu. Sont là pour manger Pac-Man} \\
+                \multirow{2}{*}{\includegraphics[height=1.5cm]{finalBoss.png}}   & \textbf{Final boss}                     & & \multirow{2}{*}{\includegraphics[height=1.5cm]{cherry.png}}   & \textbf{Cherry}                                             \\
+                                                                                 & {\footnotesize Boss final du jeu}       & &                                                               & {\footnotesize Vie/essai dans le jeu}                       \\
+                \multirow{2}{*}{\includegraphics[height=1.0cm]{littlePoint.png}} & \textbf{Point}                          & & \multirow{2}{*}{\includegraphics[height=1.5cm]{bigPoint.png}} & \textbf{Bonus}                                              \\
+                                                                                 & {\footnotesize Pour compter les scores} & &                                                               & {\footnotesize Avantage pour manger les ghosts}             \\
+            \end{tabular}
+    \end{table}
+\end{frame}
 
+\begin{frame}{Aspect technique}
+    \begin{outline}
+        \item Webmapping avec :
+        \begin{outline}
+            \item Fond de plan (OSM, swisstopo)
+            \item Route (roadmap d'OSM)
+        \end{outline}
+        \item Base de données pour enregistrer les scores
+    \end{outline}
+\end{frame}
+
+\begin{frame}{Règles du jeu}
+    \begin{outline}
+        \item Ne pas se faire manger par les ghosts
+        \item Gagner le plus de points possibles en :
+        \begin{outline}
+            \item grignotant les points
+            \item avoir des bonus pour manger les ghosts
+        \end{outline}
+    \end{outline}
+\end{frame}
+
+\begin{frame}{Tâches à réaliser}
+    \begin{outline}
+        \item Création de la page d'accueil \\
+              {\scriptsize Minimum : pouvoir tester et travailler \\
+              Amélioration en continue durant le projet}
+        \item Créer les déplacements de PACMAN sur les routes \\
+              \test
+        \item Créer les intersections de PACMAN par l'utilisateur \\
+              \test
+        \item Créer les mouvements des fantômes \\
+              \test
+        \item Généralisation des points précédants à l'ensemble de la ville \\
+        \item Créer la gestion des scores (enregistrement des scores, affichages, ...) \\
+              \optionnel
+    \end{outline}
+\end{frame}
+
+\begin{frame}{Références et sources}
+    \begin{outline}
+        \item \href{https://fr.wikipedia.org/wiki/Pac-Man}{PACMAN, Wikipédia}
+        \item \href{https://dev.to/code2bits/pac-man-patterns--ghost-movement-strategy-pattern-1k1a}{PACMAN Patterns - Ghosts movement}
+        \item \href{https://gameinternals.com/understanding-pac-man-ghost-behavior}{Understanding Pac-Man Ghost Behavior}
+        \item \href{https://www.lefigaro.fr/secteur/high-tech/2015/03/31/32001-20150331ARTFIG00349-google-fait-debouler-pac-man-dans-google-maps.php}{Google fait débouler Pac-Man dans Google Maps}
+    \end{outline}
+\end{frame}
 \end{document}

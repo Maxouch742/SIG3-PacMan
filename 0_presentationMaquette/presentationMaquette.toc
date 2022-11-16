@@ -1,2 +1,1 @@
 \babel@toc {french}{}\relax 
-\beamer@sectionintoc {1}{Maquette du projet}{2}{0}{1}
