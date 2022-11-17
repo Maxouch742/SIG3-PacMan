@@ -1,29 +1,17 @@
-// Import des modules
-import Map from 'ol/Map.js';
-import OSM from 'ol/source/OSM.js';
-import Tile from 'ol/layer/Tile.js';
-import View from 'ol/View.js';
-import Proj from 'ol/proj.js';
-
-
-// On crée la map
-const map = new Map({
-    target: "map",
+const map = new ol.Map({
+    target: "map", // la cible où l'on veut charger la Map
 
     // Couches
     layers: [
-        new Tile({
-            source: new OSM(),
-        }),
+      new ol.layer.Tile({
+        // une source particulière, OSM à ne pas utiliser en production!
+        source: new ol.source.OSM(),
+      }),
     ],
 
-    // Paramètres de la vue
-    view: new View({
-        center: Proj.transform(
-            [6.6, 46.6],
-            "EPSG:4326",
-            "EPSG:3857"
-        ),
-        zoom: 10
-    })
-});
+    // Vue (contrôle l'échelle, le centre, etc..)
+    view: new ol.View({
+      center: ol.proj.fromLonLat([6.63, 46.783]),
+      zoom: 15,
+    }),
+  });
