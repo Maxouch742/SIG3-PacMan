@@ -1,0 +1,46 @@
+# Création de la database 
+
+CREATE DATABASE pacman_hopital
+    WITH
+    OWNER = postgres
+    TEMPLATE = postgis_33_sample
+    ENCODING = 'WIN1252'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1
+    IS_TEMPLATE = False;
+
+COMMENT ON DATABASE pacman_hopital
+    IS 'Zone de test, quartier de l''hopital ';
+
+
+# Création de la table
+
+CREATE TABLE IF NOT EXISTS public.roads_quartierhopital_clean
+(
+    gid integer NOT NULL DEFAULT nextval('roads_quartierhopital_clean_gid_seq'::regclass),
+    osm_id character varying(254) COLLATE pg_catalog."default",
+    code numeric,
+    fclass character varying(254) COLLATE pg_catalog."default",
+    name character varying(254) COLLATE pg_catalog."default",
+    ref character varying(254) COLLATE pg_catalog."default",
+    oneway character varying(254) COLLATE pg_catalog."default",
+    maxspeed numeric,
+    layer numeric,
+    bridge character varying(254) COLLATE pg_catalog."default",
+    tunnel character varying(254) COLLATE pg_catalog."default",
+    geom geometry(MultiLineString),
+    CONSTRAINT roads_quartierhopital_clean_pkey PRIMARY KEY (gid)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.roads_quartierhopital_clean
+    OWNER to postgres;
+-- Index: roads_quartierhopital_clean_geom_idx
+
+-- DROP INDEX IF EXISTS public.roads_quartierhopital_clean_geom_idx;
+
+CREATE INDEX IF NOT EXISTS roads_quartierhopital_clean_geom_idx
+    ON public.roads_quartierhopital_clean USING gist
+    (geom)
+    TABLESPACE pg_default;
