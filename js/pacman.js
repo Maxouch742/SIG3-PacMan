@@ -13,8 +13,9 @@ const map = new ol.Map({
 
   // Vue (contrôle l'échelle, le centre, etc..)
   view: new ol.View({
-    center: ol.proj.fromLonLat([6.63, 46.783]),
+    center: ol.proj.fromLonLat([6.64, 46.77]),
     zoom: 15,
   }),
 });
+
 
