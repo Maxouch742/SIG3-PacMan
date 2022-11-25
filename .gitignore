@@ -1,7 +1,6 @@
 
-*.qgz
-*.shx
-*.shp
-*.prj
-*.dbf
-*.cpg
+data/switzerland-latest-free.shp/gis_osm_roads_free_1.cpg
+data/switzerland-latest-free.shp/gis_osm_roads_free_1.dbf
+data/switzerland-latest-free.shp/gis_osm_roads_free_1.prj
+data/switzerland-latest-free.shp/gis_osm_roads_free_1.shp
+data/switzerland-latest-free.shp/gis_osm_roads_free_1.shx
