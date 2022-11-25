@@ -3,3 +3,8 @@
     width: 70%;
     background-color: rgba(197, 197, 197, 0.774);
 }
+body
+{
+    background-color: black; /* Le fond de la page sera noir */
+    color: white; /* Le texte de la page sera blanc */
+}
