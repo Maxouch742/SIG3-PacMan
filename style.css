@@ -2,6 +2,7 @@
     height: 400px;
     width: 70%;
     background-color: rgba(197, 197, 197, 0.774);
+    border: 15px solid darkblue;
 }
 body
 {
