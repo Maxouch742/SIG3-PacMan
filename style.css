@@ -1,11 +1,24 @@
 #map {
-    height: 400px;
-    width: 70%;
+    height: 500px;
+    width: 100%;
     background-color: rgba(197, 197, 197, 0.774);
     border: 15px solid darkblue;
 }
+
 body
 {
     background-color: black; /* Le fond de la page sera noir */
     color: white; /* Le texte de la page sera blanc */
 }
+
+.button {
+    background-color: red;
+    text-align: center;
+    font-size: 50px;
+    
+}
+
+.button:hover {
+    background-color: green;
+  }
+
