@@ -36,15 +36,15 @@ class MyServer(BaseHTTPRequestHandler) :
     # Méthode utile pour le GET
     def do_GET(self) :
         # Exécution de la requête et réception des données
-        self.cursor.execute("SELECT osm_id, ST_AsGeoJSON(geom) FROM public.roads_quartierHopital_clean;")
-        self.data = self.cursor.fetchall()
+        self.cursor.execute("SELECT ST_AsGeoJSON(geom) FROM public.roads_quartierHopital_clean LIMIT 1;")
+        self.data = self.cursor.fetchone()
 
-        print(self.data)
+        print(self.data[0])
         
         self.send_response(200)
         self._set_headers()
         # conversion dict in JSON et écriture du fichier
-        self.wfile.write(bytes(json.dumps(self.data), "utf-8"))
+        self.wfile.write(bytes(self.data[0], "utf-8"))
 
 
 if __name__ == "__main__" :

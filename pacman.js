@@ -4,21 +4,22 @@ url = 'http://localhost:8000';
 
 // Fonction pour faire la requête de la premiere route
 function getData() {
-    console.log("Tentative de connexion : ", url)
-    $.ajax({
-        url,
-        type: 'GET',
-        success: function(dataFromServer) {
-            console.log('Réponse :', dataFromServer);
-            updateMap(dataFromServer);
-   
-            //$('#data-get').text(
-            //    JSON.stringify(dataFromServer, undefined, 2)
-            //);
-        }
-    });
+  console.log("Tentative de connexion : ", url)
+  $.ajax({
+    dataType: "json",
+    url,
+    type: 'GET',
+    success: function(dataFromServer) {
+      console.log('Réponse :', dataFromServer);
+      updateDataServeur(dataFromServer);
+
+  
+          //$('#data-get').text(
+          //    JSON.stringify(dataFromServer, undefined, 2)
+          //);
+      }
+  });
 }
-    
 
 /* ---------------------------------------------------------------------- CARTE ET OPENLAYERS ------------------------------------------------*/
 // Layers
@@ -42,7 +43,12 @@ const map = new ol.Map({
   }),
 });
 
-function updateMap(data) {
+function updateDataServeur(dataServer) {
+  console.log('Data :', dataServer);
+  road = dataServer.coordinates;
+  console.log("Coord. : ", road);
+
+
   /*
   // Création d'une source vectorielle avec le GeoSJON
   const source_road = new ol.source.Vector({
@@ -54,7 +60,7 @@ function updateMap(data) {
     source: source_road
   })*/
 
-  const source_layer = new ol.layer.Vector({
+  /*const source_layer = new ol.layer.Vector({
     source: new ol.source.Vector({
       features: new ol.format.GeoJSON().readFeature(data),
     })
@@ -71,5 +77,5 @@ function updateMap(data) {
   });
 
   console.log(source_layer);
-  console.log(source_road.getFeatures()[0]);
+  console.log(source_road.getFeatures()[0]);*/
 };
