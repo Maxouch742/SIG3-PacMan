@@ -36,7 +36,7 @@ class MyServer(BaseHTTPRequestHandler) :
     # Méthode utile pour le GET
     def do_GET(self) :
         # Exécution de la requête et réception des données
-        self.cursor.execute("SELECT ST_AsGeoJSON(geom) FROM public.roads_quartierHopital_clean;")
+        self.cursor.execute("SELECT osm_id, ST_AsGeoJSON(geom) FROM public.roads_quartierHopital_clean;")
         self.data = self.cursor.fetchall()
 
         print(self.data)
