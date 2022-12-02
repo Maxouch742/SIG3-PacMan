@@ -17,6 +17,7 @@
 \usepackage{graphicx} %Loading the package
 \graphicspath{{picture/}}
 
+
 %http://lesfichesabebert.fr/latex/TableauxCouleur.html
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -54,6 +55,7 @@
 \newcommand{\optionnel}{{\color{orange} \textit{Optionnel}}}
 \newcommand{\test}{{\color{blue} \textit{Test sur zone restreinte}}}
 
+\definecolor{o}{rgb}{1,0.647,0}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
@@ -130,5 +132,27 @@
         \item \href{https://gameinternals.com/understanding-pac-man-ghost-behavior}{Understanding Pac-Man Ghost Behavior}
         \item \href{https://www.lefigaro.fr/secteur/high-tech/2015/03/31/32001-20150331ARTFIG00349-google-fait-debouler-pac-man-dans-google-maps.php}{Google fait débouler Pac-Man dans Google Maps}
     \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Planification prévisionnelle}
+    \scriptsize
+    \begin{table}
+        \centering
+        \begin{tabular}{l|l|l|l|l|l|l|l|l|l|}
+            \textbf{Tâches}                  & \rotatebox{90}{\textbf{18.11.22}} & \rotatebox{90}{\textbf{25.11.22}} & \rotatebox{90}{\textbf{02.12.22}} & \rotatebox{90}{\textbf{09.12.22}} & \rotatebox{90}{\textbf{16.12.22}} & \rotatebox{90}{\textbf{23.12.22}} & \rotatebox{90}{\textbf{13.01.23}} & \rotatebox{90}{\textbf{20.01.23}} & \rotatebox{90}{\textbf{27.01.23}} \\ \hline
+            Création page internet           & \cellcolor{o}                     &                                   &                                   &                                   &                                   &                                   &                                   &                                   &                                   \\ \hline
+            Sources et import des shp        &                                   &  \cellcolor{o}                    &                                   &                                   &                                   &                                   &                                   &                                   &                                   \\ \hline
+            Déplacement PacMan sur une route &                                   &                                   & \cellcolor{o}                     & \cellcolor{o}                     &                                   &                                   &                                   &                                   &                                   \\ \hline
+            Interaction PacMan intersection  &                                   &                                   &                                   &                                   & \cellcolor{o}                     & \cellcolor{o}                     &                                   &                                   &                                   \\ \hline
+            Déplacement ghosts               &                                   &                                   &                                   &                                   &                                   &                                   & \cellcolor{o}                     &                                   &                                   \\ \hline
+            Design page internet             &                                   & \cellcolor{o}                     & \cellcolor{o}                     & \cellcolor{o}                     & \cellcolor{o}                     & \cellcolor{o}                     & \cellcolor{o}                     &                                   &                                   \\ \hline
+            Présentation et rapport          &                                   &                                   &                                   &                                   &                                   &                                   &                                   & \cellcolor{o}                     & \cellcolor{o}                     \\ \hline \hline
+            \textbf{Cours}                   &                                   &                                   &                                   &                                   &                                   &                                   &                                   &                                   &                                   \\ \hline
+            TE1                              &                                   &                                   &                                   & \cellcolor{o}                     &                                   &                                   &                                   &                                   &                                   \\ \hline
+            swisstopo                        &                                   &                                   &                                   &                                   &                                   &                                   &                                   & \cellcolor{o}                     &                                   \\ \hline
+            \hline
+        \end{tabular}
+    \end{table}
 \end{frame}
 \end{document}
