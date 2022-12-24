@@ -1,6 +1,6 @@
 #map {
     height: 500px;
-    width: 100%;
+    width: 95%;
     background-color: rgba(197, 197, 197, 0.774);
     border: 15px solid darkblue;
 }
@@ -20,5 +20,25 @@ body
 
 .button:hover {
     background-color: green;
-  }
+}
+
+.vie {
+    position: absolute;
+    top : 280px
+
+}
+
+.points {
+    position: relative;
+    top : 200px;
+
+}
+
+#map {
+    position: relative;
+    top : -180px;
+    left: 150px;
+
+}
+
 
