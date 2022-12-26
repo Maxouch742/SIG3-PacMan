@@ -1,6 +1,6 @@
 #map {
     height: 500px;
-    width: 95%;
+    width: 80%;
     background-color: rgba(197, 197, 197, 0.774);
     border: 15px solid darkblue;
 }
@@ -32,6 +32,11 @@ body
     position: relative;
     top : 200px;
 
+}
+
+.start{
+    position: relative;
+    top: 300px;
 }
 
 #map {

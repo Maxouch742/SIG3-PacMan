@@ -21,8 +21,8 @@ const map = new ol.Map({
   layers: [osm],
   view: new ol.View({
     projection: 'EPSG:2056',
-    center: [2539509.5, 1180354.8],
-    zoom: 16,
+    center: [2539492.7, 1180567.1],
+    zoom: 18,
   }),
 });
 
@@ -108,7 +108,7 @@ console.log("Upload carte to map");
 
 ////////////////////////////////////////////
 // Debut du jeu
-const speedInput = 0.1;
+const speedInput = 1;
 let animating = false;
 let distance = 0;
 let lastTime;
@@ -123,11 +123,17 @@ function moveFeature(event) {
   const currentCoordinate = route_poly.getCoordinateAt(
     distance > 1 ? 2 - distance : distance 
   );
+  console.log(currentCoordinate);
   position.setCoordinates(currentCoordinate);
   const vectorContext = ol.render.getVectorContext(event);
   vectorContext.setStyle(styles.geoMarker);
   vectorContext.drawGeometry(position);
   map.render();
+  map.setView(new ol.View({
+    projection: 'EPSG:2056',
+    center: currentCoordinate,
+    zoom: 18,
+}));
 }
 
 function startAnimation() {
