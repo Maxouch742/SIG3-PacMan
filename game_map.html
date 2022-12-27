@@ -4,20 +4,40 @@
     <head>
         <title>PacMan - SIG3</title>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport">
         <link rel="icon" href="picture\pacman_icon.png" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.1.0/ol.css">
         <link rel="stylesheet" href="style.css" type="text/css">
     </head>
 
     <body>
-        <div class ="hautdepage">
-            <div style="text-align: center;">
-                <img src="picture/pac-man-logo.gif" width=30% height=30% alt="">
+        <div class="container text-center">
+            
+            <!-- Map -->
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div id="map"></div>
+                </div>
+            </div>
+
+            <!-- Informations de la partie (vies, points, ...) -->
+            <div class="row mt-3">
+                <div class="col">
+                    <img id="img-life" src="picture/pacman_lifes_3.png">
+                </div>
+                <div class="col">
+                    <h5 id="points-dom">Points : 0000</h5>
+                </div>
+                <div class="col">
+                    <button onclick="startGame()">START</button>
+                </div>     
             </div>
         </div>
+        
+        
+    
 
+        <!--
         <div class ='vie'>
             <h3>
                 <FONT face="Impact">
@@ -44,9 +64,7 @@
 
         <div class="start">
             <button onclick="startAnimation()">START</button>
-        </div>
-
-        <div id="map"></div>
+        </div>-->
             
         
         <!-- FIN DE LA PARTIE HTML -->

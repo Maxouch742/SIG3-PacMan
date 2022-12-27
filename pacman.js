@@ -72,12 +72,6 @@ const styles = {
       color: [237, 212, 0, 0.8],
     }),
   }),
-  'icon': new ol.style.Style({
-    image: new ol.style.Icon({
-      anchor: [0.5, 1],
-      src: 'picture/data.jpg',
-    }),
-  }),
   'geoMarker': new ol.style.Style({
     image: new ol.style.Circle({
       radius: 7,
@@ -136,7 +130,11 @@ function moveFeature(event) {
 }));
 }
 
-function startAnimation() {
+function startGame() {
+
+  // Permet de changer l'image pour montrer qu'il ne reste que 2 vies
+  document.getElementById("img-life").src="picture/pacman_lifes_2.png";
+
   animating = true;
   lastTime = Date.now();
   vectorLayer.on('postrender', moveFeature);
