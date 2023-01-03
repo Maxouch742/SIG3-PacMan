@@ -99,11 +99,7 @@ console.log("Upload carte to map");
 
 ////////////////////////////////////////////
 // Debut du jeu
-<<<<<<< Updated upstream
-const speedInput = 1000;
-=======
 const speedInput = 200;
->>>>>>> Stashed changes
 let animating = false;
 let distance = 0;
 let lastTime;
@@ -143,17 +139,7 @@ function moveFeature(event) {
   vectorContext.setStyle(styles.geoMarker);
   vectorContext.drawGeometry(position);
   map.render();
-<<<<<<< Updated upstream
   map.getView().setCenter(currentCoordinate);
-=======
-
-  // Centrer la vue sur PacMan
-  map.setView(new ol.View({
-    projection: 'EPSG:2056',
-    center: currentCoordinate,
-    zoom: 18,
-}));
->>>>>>> Stashed changes
 }
 
 function startGame() {
