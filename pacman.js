@@ -13,6 +13,7 @@ ol.proj.proj4.register(proj4);
 // Fond de carte
 const osm = new ol.layer.Tile({
   source: new ol.source.OSM(),
+  opacity:0.7,
 });
 
 // Création de la carte
@@ -62,7 +63,6 @@ const geoMarker = new ol.Feature({
   type: 'geoMarker',
   geometry: position,
 });
-console.log("Création géoMarker")
 
 // Style
 const styles = {
@@ -73,16 +73,13 @@ const styles = {
     }),
   }),
   'geoMarker': new ol.style.Style({
-    image: new ol.style.Circle({
-      radius: 7,
-      fill: new ol.style.Fill({color: 'black'}),
-      stroke: new ol.style.Stroke({
-        color: 'white',
-        width: 2,
-      }),
+    image: new ol.style.Icon({
+      src: 'picture/pacman_carte.png',
+      scale: 0.04,
+      rotation: 0,
     }),
   }),
-};
+}
 console.log("Création style");
 
 
@@ -102,10 +99,15 @@ console.log("Upload carte to map");
 
 ////////////////////////////////////////////
 // Debut du jeu
+<<<<<<< Updated upstream
 const speedInput = 1000;
+=======
+const speedInput = 200;
+>>>>>>> Stashed changes
 let animating = false;
 let distance = 0;
 let lastTime;
+let lastPos = false;
 
 function moveFeature(event) {
   const speed = speedInput;
@@ -114,15 +116,44 @@ function moveFeature(event) {
   distance = (distance + (speed * elapsedTime) / 1e6) % 2;
   lastTime = time;
 
+  // Calcul de la nouvelle position du pacman
   const currentCoordinate = route_poly.getCoordinateAt(
     distance > 1 ? 2 - distance : distance 
   );
   position.setCoordinates(currentCoordinate);
+  
+  // Calcul de la rotation de l'icône
+  if (lastPos !== false) {
+    const dposi_x = currentCoordinate[0] - lastPos[0];
+    const dposi_y = currentCoordinate[0] - lastPos[1];
+    const angle = Math.tan( dposi_y/dposi_x );
+
+    styles.geoMarker.getImage().setRotation(angle);
+
+  }
+  lastPos = currentCoordinate;
+
+  console.log(route_coord[route_coord.length-1]);
+  if (currentCoordinate == route_coord[route_coord.length-1]) {
+    console.log("TOP");
+  }
+  
+  // Mise à jour de la carte
   const vectorContext = ol.render.getVectorContext(event);
   vectorContext.setStyle(styles.geoMarker);
   vectorContext.drawGeometry(position);
   map.render();
+<<<<<<< Updated upstream
   map.getView().setCenter(currentCoordinate);
+=======
+
+  // Centrer la vue sur PacMan
+  map.setView(new ol.View({
+    projection: 'EPSG:2056',
+    center: currentCoordinate,
+    zoom: 18,
+}));
+>>>>>>> Stashed changes
 }
 
 function startGame() {
@@ -135,3 +166,8 @@ function startGame() {
   vectorLayer.on('postrender', moveFeature);
   geoMarker.setGeometry(null);
 }
+
+
+// TODO :
+// - Rotation image
+// - layers points avec suppression quand passage de Pacman et ajout points
