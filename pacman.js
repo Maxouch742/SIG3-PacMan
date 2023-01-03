@@ -102,7 +102,7 @@ console.log("Upload carte to map");
 
 ////////////////////////////////////////////
 // Debut du jeu
-const speedInput = 1;
+const speedInput = 1000;
 let animating = false;
 let distance = 0;
 let lastTime;
@@ -112,22 +112,17 @@ function moveFeature(event) {
   const time = event.frameState.time;
   const elapsedTime = time - lastTime;
   distance = (distance + (speed * elapsedTime) / 1e6) % 2;
-  lasTime = time;
+  lastTime = time;
 
   const currentCoordinate = route_poly.getCoordinateAt(
     distance > 1 ? 2 - distance : distance 
   );
-  console.log(currentCoordinate);
   position.setCoordinates(currentCoordinate);
   const vectorContext = ol.render.getVectorContext(event);
   vectorContext.setStyle(styles.geoMarker);
   vectorContext.drawGeometry(position);
   map.render();
-  map.setView(new ol.View({
-    projection: 'EPSG:2056',
-    center: currentCoordinate,
-    zoom: 18,
-}));
+  map.getView().setCenter(currentCoordinate);
 }
 
 function startGame() {
