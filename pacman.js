@@ -22,13 +22,12 @@ const pts_shp = new ol.layer.Vector({
     format: new ol.format.GeoJSON(),
     url: 'quartierHopital_MN95_interpolate.geojson'
   }),
-});
-
-const style = new ol.style.Style({
-  image: new ol.style.Circle({
-    radius: 1000,
-    fill: new ol.style.Fill({
-      color: '#ffcc33'
+  style: new ol.style.Style({
+    image: new ol.style.Circle({
+      radius: 1000,
+      fill: new ol.style.Fill({
+        color: '#ffcc33'
+      })
     })
   })
 });
