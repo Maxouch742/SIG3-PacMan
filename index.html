@@ -19,9 +19,9 @@
         </div>
 
         <div class ="hautdepage">
-            <marquee width="90%" scrollamount="25" scrolldelay="10">
+            <marquee width="100%" scrollamount="25" scrolldelay="10">
                 <!-- L'objet parcourt 2px chaque 10ms -->
-                <img src="picture/pacman.jpg" >
+                <img src="picture/pacman.jpg" width="20%">
                 </marquee>
         </div>
         
@@ -30,13 +30,22 @@
             <div style="text-align: center;">
             </div>
             Bienvenue aux fans de pacman, cette version est une édition spéciale HEIG-VD et même EC+G. Alors cliquez sur jouer.
-            
         </h3>
+        <br>
+
+        <form action="/index.html" method="post">
+            <div>
+                <label for="name">Nom :</label>
+                <input type="text" id="name" name="user_name">
+            </div>
+        </form>
+
         <br>
         <div class ="button">
             <button onclick="window.location.href = 'game_map.html'"> Jouer </button>
         </div>
         <br>
+
         <h3>
             Meilleures scores
             </FONT>

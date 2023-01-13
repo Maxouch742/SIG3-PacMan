@@ -4,10 +4,15 @@ body
     color: white; /* Le texte de la page sera blanc */
 }
 
+.button2 {
+    text-align: center;
+    font-size: 15px;
+}
+
 .button {
     background-color: red;
     text-align: center;
-    font-size: 50px;
+    font-size: 40px;
 }
 
 .button:hover {
