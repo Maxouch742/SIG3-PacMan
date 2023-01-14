@@ -1,5 +1,11 @@
+let url = $('#server-url').val();
+url = 'http://localhost:8000';
+
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Définition projection CH1903/MN95
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 proj4.defs(
   "EPSG:2056",
   "+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1"
@@ -10,7 +16,9 @@ ol.proj.proj4.register(proj4);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Fond de carte
+// Fond de carte et map
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Fond de carte OSM
 const osm = new ol.layer.Tile({
   source: new ol.source.OSM(),
   opacity:0.7,
@@ -23,47 +31,14 @@ const map = new ol.Map({
   view: new ol.View({
     projection: 'EPSG:2056',
     center: [2539492.7, 1180567.1],
-    zoom: 18,
+    zoom: 16,
   }),
 });
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Polyligne route
-const route_coord = [
-  [2539492.7402868, 1180567.101155836],
-  [2539492.8357670126, 1180566.8517170758],
-  [2539494.1380094127, 1180563.4477505488],
-  [2539500.2995065134, 1180547.3430828892],
-  [2539509.9360880796, 1180522.1426338975],
-  [2539521.358872784, 1180492.2882048136],
-  [2539524.052714964, 1180485.24591781],
-  [2539526.4044553135, 1180479.1187138006]];
-const route_poly = new ol.geom.LineString(route_coord);
-const route_feat = new ol.Feature({
-  geometry: route_poly,
-  type: 'route'
-});
-const route_sour = new ol.source.Vector();
-route_sour.addFeature(route_feat);
-
-console.log("Création feature")
-
-// Couches supplementaires
-const startMarker = new ol.Feature({
-  type: 'icon',
-  geometry: new ol.geom.Point(route_poly.getFirstCoordinate()),
-});
-const endMarker = new ol.Feature({
-  type: 'icon',
-  geometry: new ol.geom.Point(route_poly.getLastCoordinate()),
-});
-const position = startMarker.getGeometry().clone();
-const geoMarker = new ol.Feature({
-  type: 'geoMarker',
-  geometry: position,
-});
-
+// Variables globales pour le jeu
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Style
 const styles = {
   'route': new ol.style.Style({
@@ -80,30 +55,91 @@ const styles = {
     }),
   }),
 }
-console.log("Création style");
 
+let vectorLayer;
+let route_poly;
+let route_feat;
+let position;
+let geoMarker;
 
-/////////////////////////////////////////////7777
-// création de la couche finale
-const vectorLayer = new ol.layer.Vector({
-  source: new ol.source.Vector({
-    features: [route_feat, geoMarker, startMarker, endMarker],
-  }),
-  style: function(feature) {
-    return styles[feature.get('type')];
-  }
-});
-map.addLayer(vectorLayer);
-console.log("Upload carte to map");
-
-
-////////////////////////////////////////////
-// Debut du jeu
 const speedInput = 200;
 let animating = false;
 let distance = 0;
 let lastTime;
 let lastPos = false;
+
+
+function startGame() {
+  // Permet de changer l'image pour montrer qu'il ne reste que 2 vies
+  document.getElementById("img-life").src="picture/pacman_lifes_2.png";
+
+  // GET (sur la database)
+  console.log('Cette page tente de joindre:', url);
+  $.ajax({
+    url: url,
+    type: 'GET',
+    success: function(dataFromServer) {
+      route_coord = dataFromServer['coordinates']
+      affichRoad(route_coord);
+      
+      /*
+      console.log(dataFromServer['source']);
+      console.log(dataFromServer['target']);
+      */
+
+      // Lancer l'animation
+      
+    }
+  });
+};
+
+
+function affichRoad(data){
+  // Creation du feature route
+  route_poly = new ol.geom.LineString(data);
+  route_feat = new ol.Feature({
+    geometry: route_poly,
+    type: 'route'
+  });
+  const route_sour = new ol.source.Vector();
+  route_sour.addFeature(route_feat);
+
+  // Couches supplementaires
+  const startMarker = new ol.Feature({
+    type: 'icon',
+    geometry: new ol.geom.Point(route_poly.getFirstCoordinate()),
+  });
+  const endMarker = new ol.Feature({
+    type: 'icon',
+    geometry: new ol.geom.Point(route_poly.getLastCoordinate()),
+  });
+  position = startMarker.getGeometry().clone();
+  geoMarker = new ol.Feature({
+    type: 'geoMarker',
+    geometry: position,
+  });
+  // création de la couche finale
+  vectorLayer = new ol.layer.Vector({
+    source: new ol.source.Vector({
+      features: [route_feat, geoMarker, startMarker, endMarker],
+    }),
+    style: function(feature) {
+      return styles[feature.get('type')];
+    }
+  });
+  map.addLayer(vectorLayer);
+  console.log("Upload carte to map");
+
+  // Paramètres de la fenêtre d'affiche de la map
+  map.getView().setCenter(route_poly.getFirstCoordinate());
+  map.getView().setZoom(18);
+
+  animating = true;
+  lastTime = Date.now();
+  vectorLayer.on('postrender', moveFeature);
+  geoMarker.setGeometry(null);
+};
+
 
 function moveFeature(event) {
   const speed = speedInput;
@@ -129,7 +165,7 @@ function moveFeature(event) {
   }
   lastPos = currentCoordinate;
 
-  console.log(route_coord[route_coord.length-1]);
+
   if (currentCoordinate == route_coord[route_coord.length-1]) {
     console.log("TOP");
   }
@@ -140,20 +176,13 @@ function moveFeature(event) {
   vectorContext.drawGeometry(position);
   map.render();
   map.getView().setCenter(currentCoordinate);
-}
-
-function startGame() {
-
-  // Permet de changer l'image pour montrer qu'il ne reste que 2 vies
-  document.getElementById("img-life").src="picture/pacman_lifes_2.png";
-
-  animating = true;
-  lastTime = Date.now();
-  vectorLayer.on('postrender', moveFeature);
-  geoMarker.setGeometry(null);
-}
+};
 
 
-// TODO :
-// - Rotation image
-// - layers points avec suppression quand passage de Pacman et ajout points
+
+/* TODO :
+  - Rotation image
+  - layers points avec suppression quand passage de Pacman et ajout points
+
+
+*/

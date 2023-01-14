@@ -36,29 +36,18 @@ class MyServer(BaseHTTPRequestHandler) :
     # Méthode utile pour le GET
     def do_GET(self) :
         # Exécution de la requête et réception des données
-        self.cursor.execute("SELECT st_astext(st_transform(geom, 2056)), source, target FROM public.roads_quartierHopital_clean LIMIT 1;")
+        self.cursor.execute("SELECT osm_id from roads_quartierHopital_clean LIMIT 1;")
+        """ ("SELECT st_astext(st_transform(geom, 2056)) from roads_quartierHopital_clean LIMIT 1; ") """
         """ SELECT st_astext(st_transform(geom, 2056)) from roads_quartierHopital_clean; """
-        self.data = self.cursor.fetchall()
+        self.data = self.cursor.fetchone()
 
         print(self.data)
-
-        data = self.data[0]
-        liste_coor_str = data[0]
-        liste_coor_str = liste_coor_str[17:len(liste_coor_str)-2].split(',')
-        coordinates = []
-        for element in liste_coor_str :
-            data_element = element.split(' ')
-            coordinates.append([float(data_element[0]),float(data_element[1])])
-        data_export = {}
-        data_export.update({'coordinates':coordinates})
-        data_export.update({'source':data[1]})
-        data_export.update({'target':data[2]})
-        print(data_export)
+        print('---------------------------------------------')
         
         self.send_response(200)
         self._set_headers()
         # conversion dict in JSON et écriture du fichier
-        self.wfile.write(bytes(json.dumps(data_export), "utf-8"))
+        self.wfile.write(bytes(json.dumps(self.data), "utf-8"))
 
 
 if __name__ == "__main__" :
