@@ -39,6 +39,13 @@ const map = new ol.Map({
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Variables globales pour le jeu
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+let vectorLayer;
+let route_poly;
+let route_feat;
+let position;
+let geoMarker;
+
 // Style
 const styles = {
   'route': new ol.style.Style({
@@ -55,12 +62,6 @@ const styles = {
     }),
   }),
 }
-
-let vectorLayer;
-let route_poly;
-let route_feat;
-let position;
-let geoMarker;
 
 const speedInput = 200;
 let animating = false;
@@ -81,20 +82,17 @@ function startGame() {
     success: function(dataFromServer) {
       route_coord = dataFromServer['coordinates']
       affichRoad(route_coord);
-      
-      /*
-      console.log(dataFromServer['source']);
-      console.log(dataFromServer['target']);
-      */
-
-      // Lancer l'animation
-      
+    },
+    error: function(request, status, error) { 
+      console.log("Error: " + error)
     }
   });
 };
 
 
 function affichRoad(data){
+  
+
   // Creation du feature route
   route_poly = new ol.geom.LineString(data);
   route_feat = new ol.Feature({
@@ -128,7 +126,6 @@ function affichRoad(data){
     }
   });
   map.addLayer(vectorLayer);
-  console.log("Upload carte to map");
 
   // Paramètres de la fenêtre d'affiche de la map
   map.getView().setCenter(route_poly.getFirstCoordinate());
@@ -137,7 +134,7 @@ function affichRoad(data){
   animating = true;
   lastTime = Date.now();
   vectorLayer.on('postrender', moveFeature);
-  geoMarker.setGeometry(null);
+  //geoMarker.setGeometry(null);
 };
 
 
@@ -155,15 +152,7 @@ function moveFeature(event) {
   position.setCoordinates(currentCoordinate);
   
   // Calcul de la rotation de l'icône
-  if (lastPos !== false) {
-    const dposi_x = currentCoordinate[0] - lastPos[0];
-    const dposi_y = currentCoordinate[0] - lastPos[1];
-    const angle = Math.tan( dposi_y/dposi_x );
-
-    styles.geoMarker.getImage().setRotation(angle);
-
-  }
-  lastPos = currentCoordinate;
+  
 
 
   if (currentCoordinate == route_coord[route_coord.length-1]) {

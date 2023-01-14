@@ -34,7 +34,8 @@ class MyServer(BaseHTTPRequestHandler) :
         self.end_headers()
 
     # Méthode utile pour le GET
-    def do_GET(self) :
+    def do_GET(self, param) :
+        print(param)
         # Exécution de la requête et réception des données
         self.cursor.execute("SELECT st_astext(st_transform(geom, 2056)), source, target FROM public.roads_quartierHopital_clean LIMIT 1;")
         """ SELECT st_astext(st_transform(geom, 2056)) from roads_quartierHopital_clean; """
