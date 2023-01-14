@@ -36,18 +36,13 @@ class MyServer(BaseHTTPRequestHandler) :
     # Méthode utile pour le GET
     def do_GET(self) :
         # Exécution de la requête et réception des données
-        self.cursor.execute("SELECT osm_id, ST_AsText(geom) FROM public.roads_quartierHopital_clean;")
+        self.cursor.execute("SELECT st_astext(st_transform(geom, 2056)) from roads_quartierHopital_clean LIMIT 1; ")
         """ SELECT st_astext(st_transform(geom, 2056)) from roads_quartierHopital_clean; """
-        self.data = self.cursor.fetchall()
+        self.data = self.cursor.fetchone()
 
         print(self.data)
-        data_list = []
-        for element in self.data : 
-            data_list.append({'osm_id':element[0],
-                              'coordinates':element[1]})
         print('---------------------------------------------')
-        print(data_list)
-        data_json = json.dumps(data_list)
+        data_json = json.dumps(self.data)
         print('----------------------------------------------')
         print(data_json)
 

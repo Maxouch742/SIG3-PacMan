@@ -1,3 +1,5 @@
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Définition projection CH1903/MN95
 proj4.defs(
@@ -17,6 +19,102 @@ const osm = new ol.layer.Tile({
 });
 
 // Points sur les routes
+var imageStyle = new ol.style.Style({
+  image: new ol.style.Circle({
+        radius: 5,
+        snapToPixel: false,
+        fill: new ol.style.Fill({
+        color: [255 , 0 , 0 , 0.2]
+    }),
+    stroke: new ol.style.Stroke({
+        color: [255 , 0 , 0 , 1],
+        width: 1
+    })
+})
+});
+/*
+const LayerPoint = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    features: [
+      new ol.Feature({
+        geometry: new ol.geom.MultiPoint([
+          [2539708, 1180462],
+          [2539710, 1180471]
+        ])
+      })
+    ]
+  }),
+  style: new ol.style.Style({
+    image: new ol.style.Circle({
+      radius: 5,
+      fill: new ol.style.Fill({
+        color: [255, 0, 0]
+      })
+    })
+  })
+});
+*/
+
+const geojson_object = {
+  "type": "Feature", 
+  "geometry": {
+    "type": "MultiPoint",
+    "coordinates": [
+      [2539708.9123432883, 1180462.5350835267], 
+      [2539708.9973270786, 1180462.3540372471], 
+      [2539710.1704982957, 1180471.8081111487], 
+      [2539710.2697891463, 1180471.981723726], 
+      [2539716.265685139, 1180456.5318001767], 
+      [2539716.4628886976, 1180456.4984721635], 
+      [2539719.9082607366, 1180475.3816695483], 
+      [2539720.1058750255, 1180475.350870315], 
+      [2539725.380133099, 1180459.51517883], 
+      [2539725.534782237, 1180459.6420001376], 
+      [2539727.0002611657, 1180469.1024249843], 
+      [2539727.0600396725, 1180468.911567629], 
+      [2539710.8346676333, 1180472.5092169808], 
+      [2539710.9808434006, 1180472.645718428]
+    ]
+  }
+};
+
+/*
+const geojson_VectorSource = new ol.source.Vector({
+  features: [
+    (new ol.format.GeoJSON()).readFeatures(geojson_object, {featureProjection: 'EPSG:2056'})
+  ]
+});
+const geojson_vectorLayer = new ol.layer.Vector({
+  source: geojson_VectorSource,
+  style: new ol.style.Circle({
+    radius: 5,
+    fill: new ol.style.Fill({
+      color: [255, 0, 0]
+    })
+  })
+});*/
+
+
+const LayerPoint = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    projection: 'EPSG:2056',
+    format: new ol.format.GeoJSON(),
+    url: './mygeojson.json',
+  }),
+  style: new ol.style.Style({
+    image: new ol.style.Circle({
+      radius: 5,
+      fill: new ol.style.Fill({
+        color: [255, 0, 0]
+      })
+    })
+  })
+});
+
+
+console.log(LayerPoint);
+
+/*
 const pts_shp = new ol.layer.Vector({
   source: new ol.source.Vector({
     format: new ol.format.GeoJSON(),
@@ -31,8 +129,7 @@ const pts_shp = new ol.layer.Vector({
     })
   })
 });
-pts_shp.setStyle(style);
-  
+  */
 
 
 // Création de la carte
@@ -40,7 +137,7 @@ const map = new ol.Map({
   target: "map",
   layers: [
     osm,
-    pts_shp
+    LayerPoint
   ],
   view: new ol.View({
     projection: 'EPSG:2056',
@@ -169,9 +266,28 @@ function moveFeature(event) {
   vectorContext.drawGeometry(position);
   map.render();
   map.getView().setCenter(currentCoordinate);
+};
+
+
+let url = $('http://localhost:8000').val();
+function startGame() {
+  
+
+  console.log('Cette page tente de joindre:', url);
+  $.ajax({
+    url: url,
+    type: 'GET',
+    success: function(dataFromServer) {
+      console.log('Le serveur a répondu:', dataFromServer);
+      $('#data-get').text(
+        JSON.stringify(dataFromServer, undefined, 2)
+      );
+    }
+  });
 }
 
-function startGame() {
+
+  /*
 
   // Permet de changer l'image pour montrer qu'il ne reste que 2 vies
   document.getElementById("img-life").src="picture/pacman_lifes_2.png";
@@ -180,7 +296,8 @@ function startGame() {
   lastTime = Date.now();
   vectorLayer.on('postrender', moveFeature);
   geoMarker.setGeometry(null);
-}
+  */
+
 
 function stopAnimation() {
   // Arrêt de l'animation, fixation de la position de l'icone
@@ -199,7 +316,7 @@ function stopAnimation() {
 
 function moveNext(direction){
   console.log(direction);
-  console.log("BOnjour");
+  console.log("Bonjour");
 }
 // TODO :
 // - Rotation image
