@@ -69,6 +69,8 @@ let distance = 0;
 let lastTime;
 let lastPos = false;
 
+let target;
+
 
 function startGame() {
   // Permet de changer l'image pour montrer qu'il ne reste que 2 vies
@@ -82,6 +84,7 @@ function startGame() {
     success: function(dataFromServer) {
       route_coord = dataFromServer['coordinates']
       affichRoad(route_coord);
+      target = dataFromServer['target'];
     },
     error: function(request, status, error) { 
       console.log("Error: " + error)
@@ -145,29 +148,38 @@ function moveFeature(event) {
   distance = (distance + (speed * elapsedTime) / 1e6) % 2;
   lastTime = time;
 
-  // Calcul de la nouvelle position du pacman
-  const currentCoordinate = route_poly.getCoordinateAt(
-    distance > 1 ? 2 - distance : distance 
-  );
-  position.setCoordinates(currentCoordinate);
-  
-  // Calcul de la rotation de l'icône
-  
 
-
-  if (currentCoordinate == route_coord[route_coord.length-1]) {
-    console.log("TOP");
+  if(distance < 1){
+    const currentCoordinate = route_poly.getCoordinateAt(distance);
+    position.setCoordinates(currentCoordinate);
+    
+    // Mise à jour de la carte
+    const vectorContext = ol.render.getVectorContext(event);
+    vectorContext.setStyle(styles.geoMarker);
+    vectorContext.drawGeometry(position);
+    map.render();
+    map.getView().setCenter(currentCoordinate);
+  } else {
+    console.log("En attente");
+    // en attente d'une action sur les flèches directionnelles
+    document.addEventListener('keydown', (event) => {
+      let name = event.key;
+      console.log(name);
+      roadsNext(event.key, target);
+    }, false);
   }
-  
-  // Mise à jour de la carte
-  const vectorContext = ol.render.getVectorContext(event);
-  vectorContext.setStyle(styles.geoMarker);
-  vectorContext.drawGeometry(position);
-  map.render();
-  map.getView().setCenter(currentCoordinate);
 };
 
-
+function roadsNext(key, target){
+  switch (key){
+    case 'ArrowUp' :
+      break;
+    case 'ArrowLeft' :
+      break;
+    case 'ArrowRight' :
+      break;
+  };
+}
 
 /* TODO :
   - Rotation image
