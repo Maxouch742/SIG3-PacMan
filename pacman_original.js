@@ -30,7 +30,9 @@ const map = new ol.Map({
   layers: [osm],
   view: new ol.View({
     projection: 'EPSG:2056',
-    center: [2539492.7, 1180567.1],
+    center: [
+        2539510.0,
+        1180335.8],
     zoom: 16,
   }),
 });
@@ -40,44 +42,48 @@ const map = new ol.Map({
 // Variables globales pour le jeu
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// Style
+const styles = {
+    'route': new ol.style.Style({
+      stroke: new ol.style.Stroke({
+        width: 6,
+        color: [237, 212, 0, 0.8],
+      }),
+    }),
+    'geoMarker': new ol.style.Style({
+      image: new ol.style.Icon({
+        src: 'picture/pacman_carte.png',
+        scale: 0.04,
+        rotation: 0,
+      }),
+    }),
+  }
+
+
+// Variables globales
 let vectorLayer;
 let route_poly;
 let route_feat;
 let position;
 let geoMarker;
-const speedInput = 400;
+speedInput = 200;
 
-// Style
-const styles = {
-  'route': new ol.style.Style({
-    stroke: new ol.style.Stroke({
-      width: 6,
-      color: [237, 212, 0, 0.8],
-    }),
-  }),
-  'geoMarker': new ol.style.Style({
-    image: new ol.style.Icon({
-      src: 'picture/pacman_carte.png',
-      scale: 0.04,
-      rotation: 0,
-    }),
-  }),
-}
 
 // Variables globales utiles dans les fonctions pour bouger PacMan
-let animating = false;
-let distance = 0;
+animating = false;
+distance = 0;
 let lastTime;
-let lastPos = false;
+lastPos = false;
 let target;
 let source;
-let listener;
 let angle;
+
 
 function startGame() {
   /** Fonction pour lancer le jeu,
    *  Activée lors du clic sur le bouton "START"
    */
+
   // Permet de changer l'image pour montrer qu'il ne reste que 2 vies
   document.getElementById("img-life").src="picture/pacman_lifes_2.png";
 
@@ -93,22 +99,34 @@ function startGame() {
   });
 };
 
+
 async function getPointsRoads(){
+  /** Fonction pour créer l'url de requête sur la DB et récupérer les routes du quartier pour afficher les ronds jaunes
+   * 
+   * @return {json object} json de la base de données 
+   */
   const url_getPointsRoads = url + '/?points';
   return await getData(url_getPointsRoads);
 };
 
+
 async function getFirstRoad(){
+  /** Fonction pour créer l'url de requête sur la DB
+   *  Et récupérer la première route pour le jeu
+   * 
+   * @return {json object} json de la base de données
+   */
   url_getRoadPacManFirst = url + '/?FirstRoad';
   return await getData(url_getRoadPacManFirst);
 };
 
-let path;
-let f;
-let anim;
-let controler;
 
 function affichRoad(data){
+  /** Fonction pour afficher la route de parcours du PacMan 
+   * 
+   * @param {json} data : geometry de la route à afficher et animer
+   * @return {nothing}
+   */
   console.log("Création de la route");
   // Creation du feature route
   route_poly = new ol.geom.LineString(data);
@@ -119,40 +137,10 @@ function affichRoad(data){
   const route_sour = new ol.source.Vector();
   route_sour.addFeature(route_feat);
 
-
-  route_sour.once('change', function(event){
-    if (route_sour.getState() === 'ready'){
-      path = route_sour.getFeatures()[0];
-    }
-  });
-
-
-  // Création de la couche finale
-  vectorLayer = new ol.layer.Vector({
-    source: new ol.source.Vector({
-      features: [route_feat],
-    }),
-    style: function(feature) {
-      return styles[feature.get('type')];
-    }
-  });
-
-  controler = vectorLayer.animateFeature(f, anim);
-
-  
-
-
-
-  /*
-
   // Couches supplementaires
   const startMarker = new ol.Feature({
     type: 'icon',
     geometry: new ol.geom.Point(route_poly.getFirstCoordinate()),
-  });
-  const endMarker = new ol.Feature({
-    type: 'icon',
-    geometry: new ol.geom.Point(route_poly.getLastCoordinate()),
   });
   position = startMarker.getGeometry().clone();
   geoMarker = new ol.Feature({
@@ -162,12 +150,13 @@ function affichRoad(data){
   // Création de la couche finale
   vectorLayer = new ol.layer.Vector({
     source: new ol.source.Vector({
-      features: [route_feat, geoMarker, startMarker, endMarker],
+      features: [route_feat, geoMarker],
     }),
     style: function(feature) {
       return styles[feature.get('type')];
     }
   });
+  // Ajout de la couche à la map
   map.addLayer(vectorLayer);
 
   // Paramètres de la fenêtre d'affiche de la map
@@ -178,27 +167,9 @@ function affichRoad(data){
   animating = true;
   lastTime = Date.now();
   lastPos = false;
-  console.log("WHY ?");
-  listener = vectorLayer.on('postrender', moveFeature);
-  */
+  console.log("Debut de l'animation");
+  vectorLayer.on('postrender', moveFeature);
 };
-
-
-function animateFeature(){
-  if (path){
-    f = new ol.Feature(new ol.geom.Point([0,0]));
-    f.setStyle(styles['geoMarker']);
-    anim = new ol.featureAnimation.Path({
-      path: path,
-      rotate: true,
-      easing: ol.easing.linear,
-      speed: 200,
-      revers: false,
-    })
-  }
-};
-
-
 
 async function moveFeature(event) {
   /** Permet de faire avancer le Pac-Man sur la route
@@ -214,15 +185,15 @@ async function moveFeature(event) {
 
   // Si le Pac-Man n'est pas encore au bout de la route, 
   if(distance < 1){
-    // on fait avancer le Pac-Man sur la route
+    // On fait avancer le Pac-Man sur la route
     const currentCoordinate = route_poly.getCoordinateAt(distance);
     position.setCoordinates(currentCoordinate);
 
     // Calcul de la rotation de l'icone
     if (lastPos !== false){
       angle = gisement(lastPos, currentCoordinate);
-      styles.geoMarker.getImage().setRotation(angle);
-    }
+      styles.geoMarker.getImage().setRotation(angle-Math.PI/2);
+    };
     lastPos = currentCoordinate;
     
     // Mise à jour de la carte
@@ -236,9 +207,12 @@ async function moveFeature(event) {
     console.log("Stop de l'animation");
 
     // On stoppe l'animation
-    // animating = false;
-    // vectorLayer.un('postrender', moveFeature);
-    ol.Observable.unByKey(listener);
+    animating = false;
+    distance = 0;
+    lastPos = false;
+    geoMarker.setGeometry(position);
+    vectorLayer.un('postrender', moveFeature);
+    //ol.Observable.unByKey(listener);
 
     // On effectue la requête pour obtenir la route suivante
     data_response = getRoadsNext(target);
@@ -288,10 +262,10 @@ async function moveFeature(event) {
             }
           }
         };
-        console.log(donnee.length);
+
         if (donnee.length == 3){
-          console.log("27071999");
           console.log(donnee.sort((a,b) => a.gisement - b.gisement));
+          // TODO : continue le programme pour sélectionnner une route
         };
 
         // en attente d'une action sur les flèches directionnelles
@@ -310,8 +284,7 @@ function roadsNext(key, roadsNext_Network){
   console.log(key);
 
   objectLength = Object.keys(roadsNext_Network).length;
-    
-  
+
   if (key == 'ArrowRight'){
     console.log('ok pour right');
     for (let i=0; i < objectLength; i++){
@@ -343,46 +316,6 @@ function roadsNext(key, roadsNext_Network){
       }
     };
   };
-
-  /*
-  // Touche directionnelle du haut
-  if (key == 'ArrowUp'){
-    objectLength = Object.keys(roadsNext_Network).length;
-    for (let i=0; i.objectLength; i++){
-      gisem = roadsNext_Network[i]['gisement'];
-      console.log(angleLimit, gisem);
-      if (angleLimit-400/6 < gise && angleLimit+400/6 > gise){
-        // On lance l'animation de la prochaine route
-        map.removeLayer(vectorLayer);
-        affichRoad(roadsNext_Network[i]['coordinates']);
-        target = roadsNext_Network[i]['target'];
-      };
-    };
-  } else if (key == 'ArrowLeft'){
-    objectLength = Object.keys(roadsNext_Network).length;
-    for (let i=0; i.objectLength; i++){
-      gisem = roadsNext_Network[i]['gisement'];
-      if (angleLimit-400/3 < gise && angleLimit-400/6 > gise){
-        // On lance l'animation de la prochaine route
-        map.removeLayer(vectorLayer);
-        affichRoad(roadsNext_Network[i]['coordinates']);
-        target = roadsNext_Network[i]['target'];
-      };
-    };
-  } else if (key == 'ArrowRight'){
-    objectLength = Object.keys(roadsNext_Network).length;
-    for (let i=0; i.objectLength; i++){
-      gisem = roadsNext_Network[i]['gisement'];
-      console.log(angleLimit, gisem);
-      if (angleLimit+400/3 < gise && angleLimit+400/6 > gise){
-        // On lance l'animation de la prochaine route
-        map.removeLayer(vectorLayer);
-        affichRoad(roadsNext_Network[i]['coordinates']);
-        target = roadsNext_Network[i]['target'];
-      };
-    };
-  }
-  */
 };
 
 async function getRoadsNext(target_value) {
@@ -394,8 +327,10 @@ async function getRoadsNext(target_value) {
   return await getData(url_getRoadsNext);
 };
 
+
 function affichRoadPoint(data){
   /** Affichage des points que doit manger Pac-Man sur la carte
+   * 
    * @param {array} data tableau des coordonnées des points à afficher
    */
   // Création du style de Layer
@@ -475,13 +410,16 @@ function gisement(coordA, coordB){
   };
   
   console.log(gisement);
-  return gisement
+  return gisement*Math.PI/200.0
 };
 
 function moduloAngle(angle){
+  /**
+   * Fonction pour moduler l'angle ()
+   */
   let res = angle;
   if (res<0){
-    res += 400;
+    res += Math.PI;
   };
   return res
 }
