@@ -9,14 +9,43 @@ body
     font-size: 15px;
 }
 
-.button {
-    background-color: red;
-    text-align: center;
-    font-size: 40px;
+.row{
+    margin: 20px;
 }
 
-.button:hover {
-    background-color: green;
+form{
+    margin: 20px;
+}
+
+.button-play{
+    font-size: 50px;
+    padding: 10px 20px;
+    border-radius: 15px;
+}
+
+label{
+    font-size: 20px;
+    margin: 5px;
+}
+
+.scores{
+    position: relative;
+}
+
+table{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+th, td{
+    padding: 4px 7px;
+    border: 1px solid white;
+}
+
+.button-play:hover {
+    background-color: rgb(27, 220, 33);
 }
 
 #map {
